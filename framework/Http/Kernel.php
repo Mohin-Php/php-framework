@@ -6,7 +6,7 @@ use Exception;
 use Mohin\Framework\Routing\Router;
 
 
-class Kernel
+readonly class Kernel
 {
     public function __construct(private Router $router)
     {

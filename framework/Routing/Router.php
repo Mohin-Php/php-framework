@@ -20,11 +20,18 @@ class Router implements RouterInterface
     {
         $routeInfo = $this->extractRouteInfo($request);
         [$handler, $vars] = $routeInfo;
-        [$controller, $method] = $handler;
-        return [[new $controller, $method], $vars];
+        if (is_array($handler)) {
+            [$controller, $method] = $handler;
+            return [[new $controller, $method], $vars];
+        }
+        return [$handler, $vars];
     }
 
-    private function extractRouteInfo(Request $request)
+    /**
+     * @throws HttpRequestMethodException
+     * @throws HttpException
+     */
+    private function extractRouteInfo(Request $request): array
     {
         $dispatcher = simpleDispatcher(function (RouteCollector $r) {
             $routes = include BASE_PATH . '/routes/web.php';
