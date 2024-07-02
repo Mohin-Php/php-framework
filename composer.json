@@ -1,0 +1,14 @@
+{
+  "autoload": {
+    "psr-4": {
+      "App\\": "src/",
+      "Mohin\\Framework\\": "framework/"
+    }
+  },
+  "require-dev": {
+    "symfony/var-dumper": "^7.1"
+  },
+  "require": {
+    "nikic/fast-route": "^1.3"
+  }
+}

@@ -1,0 +1,18 @@
+name: "laravel-make"
+services:
+  # server
+  web:
+    container_name: "web"
+    image: garyclarke/php-framework-web
+    volumes:
+      - ./public:/var/www/html/public
+    ports:
+      - "80:80"
+  # application
+  app:
+    container_name: "app"
+    image: garyclarke/php-framework-app
+    volumes:
+      - .:/var/www/html
+    extra_hosts:
+      - host.docker.internal:host-gateway
