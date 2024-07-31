@@ -1,0 +1,26 @@
+{
+  "name": "mohin/main",
+  "authors": [
+    {
+      "name": "Mohin",
+      "email": "mohin@whitestorksoft.com"
+    }
+  ],
+  "repositories": [
+    {
+      "url": "framework",
+      "type": "path"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "App\\": "src/"
+    }
+  },
+  "require": {
+    "mohin/php-framework": "dev-main"
+  },
+  "require-dev": {
+    "symfony/var-dumper": "^7.1"
+  }
+}

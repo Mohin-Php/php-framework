@@ -2,15 +2,17 @@
 
 declare(strict_types=1);
 
+
 use Mohin\Framework\Http\Kernel;
-use Mohin\Framework\Http\Request;
+use Mohin\Framework\Routing\Router;
+
 
 define('BASE_PATH', dirname(__DIR__));
 require_once dirname(__DIR__) . '/vendor/autoload.php';
 
 
-$request = Request::createFromGlobals();
+$request = \Mohin\Framework\Http\Request::createFromGlobals();
 
-$kernel = new Kernel(new \Mohin\Framework\Routing\Router());
+$kernel = new Kernel(new Router());
 $response = $kernel->handle($request);
 $response->send();
