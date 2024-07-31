@@ -2,12 +2,13 @@
 
 namespace Mohin\Framework\Routing;
 
+
 use FastRoute\Dispatcher;
+use FastRoute\RouteCollector;
 use Mohin\Framework\Http\HttpException;
 use Mohin\Framework\Http\HttpRequestMethodException;
 use Mohin\Framework\Http\Request;
 use function FastRoute\simpleDispatcher;
-use FastRoute\RouteCollector;
 
 class Router implements RouterInterface
 {

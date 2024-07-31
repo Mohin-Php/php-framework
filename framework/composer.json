@@ -1,0 +1,12 @@
+{
+  "name": "mohin/php-framework",
+  "minimum-stability": "dev",
+  "autoload": {
+    "psr-4": {
+      "Mohin\\Framework\\": "src"
+    }
+  },
+  "require": {
+    "nikic/fast-route": "^1.3"
+  }
+}
