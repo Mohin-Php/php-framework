@@ -1,18 +1,60 @@
-name: "laravel-make"
+name: "php-framework-pos"
+
 services:
-  # server
-  web:
-    container_name: "web"
-    image: garyclarke/php-framework-web
-    volumes:
-      - ./public:/var/www/html/public
-    ports:
-      - "80:80"
-  # application
-  app:
-    container_name: "app"
-    image: garyclarke/php-framework-app
-    volumes:
-      - .:/var/www/html
-    extra_hosts:
-      - host.docker.internal:host-gateway
+    nginx:
+        build:
+            context: .
+            dockerfile: .docker/nginx.Dockerfile
+        container_name: balaji-pos-nginx
+        depends_on:
+            - php
+            - database
+        ports:
+            - "8000:80"
+        volumes:
+            - .:/var/www/html
+        networks:
+            - laravel
+
+    php:
+        build:
+            context: .
+            dockerfile: .docker/php.Dockerfile
+        container_name: balaji-pos-php
+        volumes:
+            - .:/var/www/html
+        networks:
+            - laravel
+
+
+    database:
+        container_name: balaji-pos-database
+        image: mysql:8.0
+        ports:
+            - "3306:3306"
+        environment:
+            - MYSQL_DATABASE=balaji_pos
+            - MYSQL_USER=docker
+            - MYSQL_PASSWORD=docker
+            - MYSQL_ROOT_PASSWORD=root
+        volumes:
+            - db-data:/var/lib/mysql
+        networks:
+            - laravel
+
+    phpmyadmin:
+        image: phpmyadmin
+        restart: always
+        ports:
+            - "8080:80"
+        environment:
+            - PMA_ARBITRARY=1
+        networks:
+            - laravel
+
+volumes:
+    db-data: ~
+
+networks:
+    laravel:
+        name: laravel
