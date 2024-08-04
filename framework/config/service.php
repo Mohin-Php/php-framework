@@ -6,10 +6,15 @@ use Mohin\Framework\Http\Kernel;
 use Mohin\Framework\Routing\Router;
 use Mohin\Framework\Routing\RouterInterface;
 
+$appEnv = 'test';
 $routes = include BASE_PATH . '/routes/web.php';
 
 $container = new Container();
 $container->delegate(new \League\Container\ReflectionContainer(true));
+
+$container->add('APP_ENV', new \League\Container\Argument\Literal\StringArgument($appEnv));
+
+
 
 $container->add(RouterInterface::class, Router::class);
 $container->extend(RouterInterface::class)->addMethodCall('setRoute', [new ArrayArgument($routes)]);
