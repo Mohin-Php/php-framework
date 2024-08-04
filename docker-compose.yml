@@ -8,7 +8,7 @@ services:
         container_name: balaji-pos-nginx
         depends_on:
             - php
-            - database
+#            - database
         ports:
             - "8000:80"
         volumes:
@@ -27,30 +27,30 @@ services:
             - laravel
 
 
-    database:
-        container_name: balaji-pos-database
-        image: mysql:8.0
-        ports:
-            - "3306:3306"
-        environment:
-            - MYSQL_DATABASE=balaji_pos
-            - MYSQL_USER=docker
-            - MYSQL_PASSWORD=docker
-            - MYSQL_ROOT_PASSWORD=root
-        volumes:
-            - db-data:/var/lib/mysql
-        networks:
-            - laravel
-
-    phpmyadmin:
-        image: phpmyadmin
-        restart: always
-        ports:
-            - "8080:80"
-        environment:
-            - PMA_ARBITRARY=1
-        networks:
-            - laravel
+#    database:
+#        container_name: balaji-pos-database
+#        image: mysql:8.0
+#        ports:
+#            - "3306:3306"
+#        environment:
+#            - MYSQL_DATABASE=balaji_pos
+#            - MYSQL_USER=docker
+#            - MYSQL_PASSWORD=docker
+#            - MYSQL_ROOT_PASSWORD=root
+#        volumes:
+#            - db-data:/var/lib/mysql
+#        networks:
+#            - laravel
+#
+#    phpmyadmin:
+#        image: phpmyadmin
+#        restart: always
+#        ports:
+#            - "8080:80"
+#        environment:
+#            - PMA_ARBITRARY=1
+#        networks:
+#            - laravel
 
 volumes:
     db-data: ~
