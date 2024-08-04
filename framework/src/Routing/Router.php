@@ -8,6 +8,7 @@ use FastRoute\RouteCollector;
 use Mohin\Framework\Http\HttpException;
 use Mohin\Framework\Http\HttpRequestMethodException;
 use Mohin\Framework\Http\Request;
+use Psr\Container\ContainerInterface;
 use function FastRoute\simpleDispatcher;
 
 class Router implements RouterInterface
@@ -23,13 +24,14 @@ class Router implements RouterInterface
     /**
      * @throws HttpException
      */
-    public function dispatch(Request $request): array
+    public function dispatch(Request $request, ContainerInterface $container): array
     {
         $routeInfo = $this->extractRouteInfo($request);
         [$handler, $vars] = $routeInfo;
         if (is_array($handler)) {
-            [$controller, $method] = $handler;
-            return [[new $controller, $method], $vars];
+            [$controllerId, $method] = $handler;
+            $controller = $container->get($controllerId);
+            return [[$controller, $method], $vars];
         }
         return [$handler, $vars];
     }
