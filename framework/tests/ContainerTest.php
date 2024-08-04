@@ -6,20 +6,20 @@ use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class DependantClass
+{ public function __construct(private DependencyClass $dependency)
 {
+}
+
+    public function getDependency(): DependencyClass
+    {
+        return $this->dependency;
+    }
 
 }
 
 class DependencyClass
 {
-    public function __construct(public DependantClass $class)
-    {
-    }
 
-    public function getDependant(): DependantClass
-    {
-        return $this->class;
-    }
 }
 
 
@@ -65,8 +65,11 @@ class ContainerTest extends TestCase
     public function services_can_be_recursively_autowired(): void
     {
         $container = new Container();
-        $container->add('dependant-class', DependantClass::class);
-        $dependantClass = $container->get('dependant-class');
-        $this->assertInstanceOf($dependantClass->getDependant(), DependencyClass::class);
+
+        $dependantService = $container->get(DependantClass::class);
+
+        $dependancyService = $dependantService->getDependency();
+
+        $this->assertInstanceOf(DependencyClass::class, $dependancyService);
     }
 }

@@ -3,6 +3,7 @@
 namespace Mohin\Framework\Container;
 
 use Psr\Container\ContainerInterface;
+use ReflectionParameter;
 
 class Container implements ContainerInterface
 {
@@ -35,9 +36,33 @@ class Container implements ContainerInterface
         return $this->resolve($this->services[$id]);
     }
 
-    public function resolve(string $id)
+    /**
+     * @throws \ReflectionException
+     */
+    private function resolve($class)
     {
-        return $id;
+        $reflectionClass = new \ReflectionClass($class);
+        $constructor = $reflectionClass->getConstructor();
+        if (!$constructor) {
+            return $reflectionClass->newInstance();
+        }
+        $constructorParams = $constructor->getParameters();
+        return $reflectionClass->newInstanceArgs($this->resolveClassDependencies($constructorParams));
+
+    }
+
+    private function resolveClassDependencies(array $reflectionParameters): array
+    {
+
+
+        $classDependencies = [];
+
+        /** @var ReflectionParameter $parameter */
+        foreach ($reflectionParameters as $parameter) {
+            $classDependencies[] = $this->get($parameter->getType());
+        }
+
+        return $classDependencies;
     }
 
 
